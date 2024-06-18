@@ -17,10 +17,3 @@ NEXT→1-5
 ---
 **マイグレーション時のディレクトリ** 
 <br>```/home/ubuntu/attendance/jobpit```
----
-<br>
-プロジェクト本体：jobpit
-<br>
-仮想環境：jobpit_env
-<br>
-TablePlusの設定画像：TablePlusSetting.png
