@@ -1,9 +1,4 @@
 
-# **作業進捗**
-
-NEXT→7-1
-<br>https://www.techpit.jp/courses/189/curriculums/192/sections/1276/parts/5128
-
 **MySQLログイン**
 <br>``` mysql -u root -p ```
 <br>```PW:root ```
@@ -16,3 +11,4 @@ NEXT→7-1
 
 **マイグレーション時のディレクトリ**
 <br>```/home/ubuntu/attendance/jobpit```
+
