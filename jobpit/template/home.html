@@ -1,8 +1,12 @@
 {% extends 'base.html' %}
 
 {% block title %}Home{% endblock %}
-
 {% block navbar %}
+<ul class="navbar-nav mr-auto">
+  <li class="nav-item activate">
+    <a class="nav-link" href="{% url 'records' %}">出勤簿</a>
+  </li>
+</ul>
 <span class="navbar-text">
   <!-- POSTリクエストでログアウトするフォーム -->
   <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
