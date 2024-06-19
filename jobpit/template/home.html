@@ -6,6 +6,9 @@
   <li class="nav-item activate">
     <a class="nav-link" href="{% url 'records' %}">出勤簿</a>
   </li>
+  <li class="nav-item activate">
+    <a class="nav-link" href="{% url 'fix_request' %}">打刻修正</a>
+  </li>
 </ul>
 <span class="navbar-text">
   <!-- POSTリクエストでログアウトするフォーム -->
@@ -41,10 +44,10 @@
     var hour = now.getHours();
     var minute = now.getMinutes();
     var second = now.getSeconds();
-    if ( hour < 10 ) hour = "0" + hour;
-    if ( minute < 10 ) minute = "0" + minute;
-    if ( second < 10 ) second = "0" + second;
-    document.getElementById('myClock').innerHTML = hour+":"+minute+":"+second;
+    if (hour < 10) hour = "0" + hour;
+    if (minute < 10) minute = "0" + minute;
+    if (second < 10) second = "0" + second;
+    document.getElementById('myClock').innerHTML = hour + ":" + minute + ":" + second;
   }
   setInterval("updateClock();", 1000);
 
@@ -60,26 +63,26 @@
       data: {
         push_type: 'attendance'
       },
-      beforeSend: function(xhr, settings) {
+      beforeSend: function (xhr, settings) {
         if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
           var csrfToken = getCookie("csrftoken");
           xhr.setRequestHeader("X-CSRFToken", csrfToken);
         }
       },
     })
-    .done(function (data) {
-      console.log(data);
-      console.log(data.attendance_time);
-      if (data.result == 'success'){
-        $('#push_result').text('出勤しました： ' + data.attendance_time);
-        $('#push_result').addClass('alert-info');
-        $('#push_result').show();
-      } else {
-        $('#push_result').text('すでに打刻しています');
-        $('#push_result').addClass('alert-danger');
-        $('#push_result').show();
-      }
-    });
+      .done(function (data) {
+        console.log(data);
+        console.log(data.attendance_time);
+        if (data.result == 'success') {
+          $('#push_result').text('出勤しました： ' + data.attendance_time);
+          $('#push_result').addClass('alert-info');
+          $('#push_result').show();
+        } else {
+          $('#push_result').text('すでに打刻しています');
+          $('#push_result').addClass('alert-danger');
+          $('#push_result').show();
+        }
+      });
   });
 
   $('#leave_button').on('click', function () {
@@ -93,30 +96,30 @@
       data: {
         push_type: 'leave'
       },
-      beforeSend: function(xhr, settings) {
+      beforeSend: function (xhr, settings) {
         if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
           var csrfToken = getCookie("csrftoken");
           xhr.setRequestHeader("X-CSRFToken", csrfToken);
         }
       },
     })
-    .done(function (data) {
-      console.log(data);
-      if (data.result == 'success'){
-        $('#push_result').text('退勤しました： ' + data.leave_time);
-        $('#push_result').addClass('alert-info');
-        $('#push_result').show();
-      }
-      else if (data.result == 'not_attended') {
-        $('#push_result').text('まだ出勤打刻がされていません');
-        $('#push_result').addClass('alert-danger');
-        $('#push_result').show();
-      } else {
-        $('#push_result').text('すでに退勤打刻されています');
-        $('#push_result').addClass('alert-danger');
-        $('#push_result').show();
-      }
-    });
+      .done(function (data) {
+        console.log(data);
+        if (data.result == 'success') {
+          $('#push_result').text('退勤しました： ' + data.leave_time);
+          $('#push_result').addClass('alert-info');
+          $('#push_result').show();
+        }
+        else if (data.result == 'not_attended') {
+          $('#push_result').text('まだ出勤打刻がされていません');
+          $('#push_result').addClass('alert-danger');
+          $('#push_result').show();
+        } else {
+          $('#push_result').text('すでに退勤打刻されています');
+          $('#push_result').addClass('alert-danger');
+          $('#push_result').show();
+        }
+      });
   });
 </script>
 
