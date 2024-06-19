@@ -1,8 +1,8 @@
 
 # **作業進捗**
 
-NEXT→1-5 
-<br>https://www.techpit.jp/courses/189/curriculums/192/sections/1270/parts/5106
+NEXT→6-1
+<br>https://www.techpit.jp/courses/189/curriculums/192/sections/1275/parts/5124
 
 **MySQLログイン**
 <br>``` mysql -u root -p ```
