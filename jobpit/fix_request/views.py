@@ -77,12 +77,12 @@ class AttendanceAcceptionView(LoginRequiredMixin, UserPassesTestMixin, TemplateV
     login_url = '/accounts/login/'
     def test_func(self):
         user = self.request.user
-        return user.is_staff
-    
-    def get(self, request, *args, **kwargs):
-        fix_request = AttendanceFixRequests.objects.all()
+        return user.is_staff    
+
+    def get(self, request, *arg, **kwargs):
+        fix_requests = AttendanceFixRequests.objects.all()
         request_list = []
-        for fix_request in fix_request:
+        for fix_request in fix_requests:
             if not fix_request.is_accepted and not fix_request.checked_time:
                 request_status = 'not_checked'
             elif not fix_request.is_accepted and fix_request.checked_time:
@@ -91,65 +91,67 @@ class AttendanceAcceptionView(LoginRequiredMixin, UserPassesTestMixin, TemplateV
                 request_status = 'accepted'
             request_data = {
                 'id': fix_request.pk,
-                'user_name':fix_request.user.username,
+                'user_name': fix_request.user.username,
                 'request_time': fix_request.request_time.strftime('%Y-%m-%d %H:%M:%S'),
-                'request_status' : request_status
+                'request_status': request_status
             }
             request_list.append(request_data)
-            context = {
-                'fix_requests': request_list
-            }
-            return self.render_to_response(context)
+        context = {
+            'fix_requests': request_list
+        }
+        return self.render_to_response(context)
+
 
 class AcceptionDetailView(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
-    template_name = 'acception_detail.html'
-    login_url = '/accounts/login'
+    template_name = "acception_detail.html"
+    login_url = "/accounts/login"
+
     def test_func(self):
         user = self.request.user
         return user.is_staff
-    
+
     def get(self, request, *args, **kwargs):
-        request_id = self.kwargs['request_id']
+        request_id = self.kwargs["request_id"]
         fix_request = get_object_or_404(AttendanceFixRequests, pk=request_id)
-        context = {'request_detail':fix_request}
+        context = {"request_detail": fix_request}
         return self.render_to_response(context)
 
+
 class PushAcceptionView(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
-    login_url = '/accounts/login'
+    login_url = "/accounts/login"
+
     def test_func(self):
         user = self.request.user
-        return user.is_staff    
+        return user.is_staff
 
     def post(self, request, *arg, **kwargs):
-        result = request.POST.get('result')
-        request_id = request.POST.get('request_id')
+        result = request.POST.get("result")
+        request_id = request.POST.get("request_id")
         fix_request = AttendanceFixRequests.objects.get(pk=request_id)
         # 確認日時が存在するときはデータ更新を行わない
         if fix_request.checked_time:
-            return JsonResponse({'result': 'acception_exists'})
+            return JsonResponse({"result": "acception_exists"})
         fix_request.checked_time = datetime.now()
-        if result == 'accept':
+        if result == "accept":
             # 承認されたらfix_requestに紐づくattendancesのレコードを更新させる
             fix_request.is_accepted = True
             if fix_request.attendance:
-                if fix_request.stamp_type == 'AT':
+                if fix_request.stamp_type == "AT":
                     fix_request.attendance.attendance_time = fix_request.revision_time
-                elif fix_request.stamp_type == 'LE':
+                elif fix_request.stamp_type == "LE":
                     fix_request.attendance.leave_time = fix_request.revision_time
             else:
-                if fix_request.stamp_type == 'AT':
+                if fix_request.stamp_type == "AT":
                     fix_request.attendance = Attendances(
-                        user=fix_request.user,
-                        attendance_time=fix_request.revision_time
+                        user=fix_request.user, attendance_time=fix_request.revision_time
                     )
-                elif fix_request.stamp_type == 'LE':
+                elif fix_request.stamp_type == "LE":
                     fix_request.attendance = Attendances(
-                        user=fix_request.user,
-                        leave_time=fix_request.revision_time
+                        user=fix_request.user, leave_time=fix_request.revision_time
                     )
             fix_request.attendance.save()
-        elif result == 'reject':
+        elif result == "reject":
             fix_request.is_accepted = False
         fix_request.save()
 
-        return JsonResponse({'result': 'OK'})
+        return JsonResponse({"result": "OK"})
