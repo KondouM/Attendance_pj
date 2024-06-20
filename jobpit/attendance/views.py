@@ -87,6 +87,7 @@ class AttendanceRecords(LoginRequiredMixin, TemplateView):
             leave_time = attendance.leave_time
             if leave_time:
                 leave_time_str = leave_time.strftime('%H:%M:%S')
+                leave_time = leave_time.strftime('%H:%M')
             else:
                 if attendance_time.date() == today.date():
                     leave_time_str = None
@@ -100,7 +101,9 @@ class AttendanceRecords(LoginRequiredMixin, TemplateView):
                 'date': attendance_time.strftime('%Y-%m-%d'),
                 'attendance_at': attendance_time.strftime('%H:%M:%S'),
                 'leave_at': leave_time_str,
-                'work_duration': attendance.formatted_work_duration()
+                'work_duration': attendance.formatted_work_duration(),
+                'attendance_at': attendance_time.strftime('%H:%M'),
+                'leave_at': leave_time
             }
             attendances_context.append(day_attendance)
 
