@@ -26,7 +26,7 @@
 
 {% block content %}
 {% csrf_token %}
-<h2>こんにちは{{ user.username }}さん!</h2>
+<h2>こんにちは{{ user.first_name }}さん!</h2>
 <div class="row justify-content-md-center bg-light">
   <h1 class="display-4" id='myClock'></h1>
 </div>
