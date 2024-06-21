@@ -2,6 +2,7 @@ from django.http.response import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
 from .models import Attendances
+from django.db.models import Sum
 from datetime import date, datetime, timedelta
 
 
@@ -32,7 +33,7 @@ class PushTimecard(LoginRequiredMixin, TemplateView):
             response_time = attendance.attendance_time
             response_body = {
                 'result': 'success',
-                'attendance_time': response_time.strftime('%Y-%m-%d %H:%M:%S')
+                'attendance_time': response_time.strftime('%Y-%m-%d %H:%M')
             }
         elif push_type == 'leave' and not is_left:
             if is_attendanced:
@@ -45,7 +46,7 @@ class PushTimecard(LoginRequiredMixin, TemplateView):
                 response_time = attendance.leave_time
                 response_body = {
                     'result': 'success',
-                    'leave_time': response_time.strftime('%Y-%m-%d %H:%M:%S')
+                    'leave_time': response_time.strftime('%Y-%m-%d %H:%M')
                 }
             else:
                 response_body = {
@@ -86,8 +87,7 @@ class AttendanceRecords(LoginRequiredMixin, TemplateView):
             attendance_time = attendance.attendance_time
             leave_time = attendance.leave_time
             if leave_time:
-                leave_time_str = leave_time.strftime('%H:%M:%S')
-                leave_time = leave_time.strftime('%H:%M')
+                leave_time_str = leave_time.strftime('%H:%M')
             else:
                 if attendance_time.date() == today.date():
                     leave_time_str = None
@@ -95,19 +95,23 @@ class AttendanceRecords(LoginRequiredMixin, TemplateView):
                     leave_time_str = 'not_pushed'
 
             work_duration = attendance.work_duration
-            total_work_duration += work_duration
+            if work_duration:
+                total_work_duration += work_duration
 
             day_attendance = {
                 'date': attendance_time.strftime('%Y-%m-%d'),
-                'attendance_at': attendance_time.strftime('%H:%M:%S'),
+                'attendance_at': attendance_time.strftime('%H:%M'),
                 'leave_at': leave_time_str,
                 'work_duration': attendance.formatted_work_duration(),
-                'attendance_at': attendance_time.strftime('%H:%M'),
-                'leave_at': leave_time
+                'total_work_seconds': int(work_duration.total_seconds()) if work_duration else 0
             }
             attendances_context.append(day_attendance)
 
-        total_work_duration_str = f"{total_work_duration // timedelta(hours=1):02}:{(total_work_duration // timedelta(minutes=1)) % 60:02}:{(total_work_duration // timedelta(seconds=1)) % 60:02}"
+        # 月間の合計労働時間の計算（「時:分」形式）
+        total_seconds = int(total_work_duration.total_seconds())
+        total_hours = total_seconds // 3600
+        total_minutes = (total_seconds % 3600) // 60
+        total_work_duration_str = f"{total_hours:02}:{total_minutes:02}"
 
         context = {
             'attendances': attendances_context,

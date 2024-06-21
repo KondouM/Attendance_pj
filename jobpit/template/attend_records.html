@@ -55,10 +55,14 @@
             <td class="text-danger">打刻されていません</td>
             {% else %}
             <td>{{ attendance.leave_at }}</td>
-            <td>{{ attendance.work_duration }}</td>
             {% endif %}
+            <td>{{ attendance.work_duration }}</td> 
         </tr>
         {% endfor %}
+        <tr>
+            <td colspan="3" style="text-align: right;">月間合計</td>
+            <td>{{ total_work_duration }}</td>
+        </tr>
     </tbody>
 </table>
 {% else %}

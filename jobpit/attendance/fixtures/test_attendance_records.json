@@ -1,36 +1,102 @@
 [
     {
-        "model": "auth.user",
-        "pk": 1,
-        "fields": {
-            "username": "testuser",
-            "password": "pbkdf2_sha256$260000$Xttg7EQKntHpYjWuAkglGQ$mADlBoAFXHM52G5BwaRt7IFu30Ri4iydsTpXY+WpD4o="
-        }
-    },
-    {
         "model": "attendance.attendances",
         "pk": 1,
         "fields": {
-            "user": 1,
-            "attendance_time": "2021-04-01T10:00:00",
-            "leave_time": "2021-04-01T19:00:00"
+            "user": 8,
+            "attendance_time": "2024-06-21T09:00:00",
+            "leave_time": "2024-06-21T18:00:00",
+            "work_duration": "08:00:00"
         }
     },
     {
         "model": "attendance.attendances",
         "pk": 2,
         "fields": {
-            "user": 1,
-            "attendance_time": "2021-04-02T10:00:00",
-            "leave_time": "2021-04-02T19:00:00"
+            "user": 8,
+            "attendance_time": "2024-06-20T08:30:00",
+            "leave_time": "2024-06-20T17:30:00",
+            "work_duration": "09:00:00"
         }
     },
     {
         "model": "attendance.attendances",
         "pk": 3,
         "fields": {
-            "user": 1,
-            "attendance_time": "2021-05-01T10:00:00"
+            "user": 8,
+            "attendance_time": "2024-06-19T08:45:00",
+            "leave_time": "2024-06-19T17:15:00",
+            "work_duration": "08:30:00"
+        }
+    },
+    {
+        "model": "attendance.attendances",
+        "pk": 4,
+        "fields": {
+            "user": 8,
+            "attendance_time": "2024-06-18T09:15:00",
+            "leave_time": "2024-06-18T18:30:00",
+            "work_duration": "09:15:00"
+        }
+    },
+    {
+        "model": "attendance.attendances",
+        "pk": 5,
+        "fields": {
+            "user": 8,
+            "attendance_time": "2024-06-17T08:00:00",
+            "leave_time": "2024-06-17T16:45:00",
+            "work_duration": "08:45:00"
+        }
+    },
+    {
+        "model": "attendance.attendances",
+        "pk": 6,
+        "fields": {
+            "user": 8,
+            "attendance_time": "2024-06-16T09:30:00",
+            "leave_time": "2024-06-16T19:00:00",
+            "work_duration": "09:30:00"
+        }
+    },
+    {
+        "model": "attendance.attendances",
+        "pk": 7,
+        "fields": {
+            "user": 8,
+            "attendance_time": "2024-06-15T08:15:00",
+            "leave_time": "2024-06-15T17:45:00",
+            "work_duration": "09:30:00"
+        }
+    },
+    {
+        "model": "attendance.attendances",
+        "pk": 8,
+        "fields": {
+            "user": 8,
+            "attendance_time": "2024-06-14T09:00:00",
+            "leave_time": "2024-06-14T18:15:00",
+            "work_duration": "09:15:00"
+        }
+    },
+    {
+        "model": "attendance.attendances",
+        "pk": 9,
+        "fields": {
+            "user": 8,
+            "attendance_time": "2024-06-13T08:30:00",
+            "leave_time": "2024-06-13T18:30:00",
+            "work_duration": "10:00:00"
+        }
+    },
+    {
+        "model": "attendance.attendances",
+        "pk": 10,
+        "fields": {
+            "user": 8,
+            "attendance_time": "2024-06-12T08:00:00",
+            "leave_time": "2024-06-12T17:00:00",
+            "work_duration": "09:00:00"
         }
     }
 ]

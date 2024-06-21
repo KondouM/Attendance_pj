@@ -23,3 +23,8 @@
 ※プロセス終了コード<br>
 ``` ps aux | grep gunicorn ```<br>
 ``` kill {プロセスid} ```
+
+
+
+開発時に管理者画面のCSS読み込みで起動させる<br>
+```python manage.py runserver --insecure```
