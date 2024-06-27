@@ -3,10 +3,10 @@ from django.contrib.auth.models import User
 from datetime import datetime, timedelta
 
 class Attendances(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    attendance_time = models.DateTimeField(default=datetime.now)
-    leave_time = models.DateTimeField(null=True)
-    work_duration = models.DurationField(null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='ユーザ名')
+    attendance_time = models.DateTimeField(default=datetime.now, verbose_name='出勤時間')
+    leave_time = models.DateTimeField(null=True, verbose_name='退勤時間')
+    work_duration = models.DurationField(null=True, blank=True, verbose_name='労働時間')
 
     def save(self, *args, **kwargs):
         if self.leave_time:
